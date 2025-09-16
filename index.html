@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Read2Real - Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>📘 Read2Real</h1>
+  <div class="nav">
+    <button onclick="showDashboard()">Home</button>
+    <button onclick="showBook('carnegie')">How to Win Friends</button>
+  </div>
+  <div id="progress" class="progress-bar-container" style="display: none">
+    <div class="progress-bar" id="progressBar">0%</div>
+  </div>
+  <div id="app"></div>
+
+  <script>
+    const books = {
+      carnegie: [
+        { title: "Don't criticize, condemn, or complain", stages: [
+          "🟢 Hold back criticism in a convo with family",
+          "🟡 Let someone at work vent without judging",
+          "🔴 Avoid correcting someone in public debate"] },
+        { title: "Give honest and sincere appreciation", stages: [
+          "🟢 Thank a family member for something small",
+          "🟡 Compliment a coworker's effort",
+          "🔴 Give heartfelt thanks to a stranger/service worker"] },
+        { title: "Arouse in the other person an eager want", stages: [
+          "🟢 Ask sibling to help so you can both relax sooner",
+          "🟡 Frame a task as helpful to team at work",
+          "🔴 Show someone how your idea benefits them"] },
+        { title: "Become genuinely interested in other people", stages: [
+          "🟢 Ask a family member about their day",
+          "🟡 Ask colleague about their hobby",
+          "🔴 Ask a stranger what they’re into"] },
+        { title: "Smile", stages: [
+          "🟢 Smile at sibling or parent",
+          "🟡 Smile at cashier or coworker",
+          "🔴 Smile first at stranger"] },
+        { title: "Remember that a person's name is the sweetest sound", stages: [
+          "🟢 Say a family member's name in convo",
+          "🟡 Greet a colleague by name",
+          "🔴 Ask and remember a new person's name"] },
+        { title: "Be a good listener", stages: [
+          "🟢 Let a family member speak without interrupting",
+          "🟡 Ask open-ended questions at work",
+          "🔴 Listen to a stranger’s story"] },
+        { title: "Talk in terms of the other person’s interests", stages: [
+          "🟢 Talk about sibling’s fav game",
+          "🟡 Discuss coworker’s hobby",
+          "🔴 Shift convo to other person’s passion"] },
+        { title: "Make the other person feel important", stages: [
+          "🟢 Thank mum or dad sincerely",
+          "🟡 Tell teammate they’re appreciated",
+          "🔴 Praise someone publicly"] },
+        { title: "Avoid arguments", stages: [
+          "🟢 Drop a petty sibling argument",
+          "🟡 Let small work disagreement go",
+          "🔴 Stay calm during heated convo"] },
+        { title: "Respect opinions; never say 'you're wrong'", stages: [
+          "🟢 Say ‘Interesting point’ to family",
+          "🟡 Say ‘That’s fair’ at work",
+          "🔴 Validate opposing view in debate"] },
+        { title: "Admit when you're wrong", stages: [
+          "🟢 Say ‘my bad’ to family",
+          "🟡 Own a mistake at work",
+          "🔴 Publicly admit fault"] },
+        { title: "Begin in a friendly way", stages: [
+          "🟢 Smile at sibling before chat",
+          "🟡 Say something nice before feedback",
+          "🔴 Compliment before conflict"] },
+        { title: "Get 'yes, yes' early", stages: [
+          "🟢 Ask easy agrees before favor",
+          "🟡 Ask colleague questions they’ll say yes to",
+          "🔴 Use agreement before negotiation"] },
+        { title: "Let the other person talk more", stages: [
+          "🟢 Let sibling vent fully",
+          "🟡 Let client speak more than you",
+          "🔴 Let stranger lead convo"] },
+        { title: "Let them feel the idea is theirs", stages: [
+          "🟢 Ask for advice from family",
+          "🟡 Let coworker take ownership",
+          "🔴 Give full credit to someone else"] },
+        { title: "See things from their POV", stages: [
+          "🟢 Ask why parent said something",
+          "🟡 Understand coworker’s stress",
+          "🔴 Validate stranger’s issue"] },
+        { title: "Be sympathetic", stages: [
+          "🟢 Say ‘I get that’ to family",
+          "🟡 Say ‘I’d feel that too’ at work",
+          "🔴 Empathize with stranger’s frustration"] },
+        { title: "Appeal to nobler motives", stages: [
+          "🟢 ‘You’re always helpful’ to sibling",
+          "🟡 ‘You care about the team’",
+          "🔴 ‘You’re a natural leader’"] },
+        { title: "Dramatize ideas", stages: [
+          "🟢 Use humor/story with sibling",
+          "🟡 Use examples in pitch",
+          "🔴 Tell powerful story in argument"] },
+        { title: "Throw down a challenge", stages: [
+          "🟢 Friendly family dare",
+          "🟡 Team goal at work",
+          "🔴 Inspire challenge in peer"] },
+        { title: "Begin with praise", stages: [
+          "🟢 Praise sibling before critique",
+          "🟡 Compliment coworker",
+          "🔴 Public praise before feedback"] },
+        { title: "Call out mistakes indirectly", stages: [
+          "🟢 Light joke with family",
+          "🟡 Ask guiding question",
+          "🔴 Share a similar story"] },
+        { title: "Talk about your own mistakes first", stages: [
+          "🟢 ‘I used to do that’",
+          "🟡 Admit previous mistake",
+          "🔴 Share a personal fail"] },
+        { title: "Ask questions instead of giving orders", stages: [
+          "🟢 ‘Can you help with this?’",
+          "🟡 Offer 2 options",
+          "🔴 Ask for ideas"] },
+        { title: "Let them save face", stages: [
+          "🟢 Stay silent on mistake",
+          "🟡 Let them correct themselves",
+          "🔴 Change topic to defuse"] },
+        { title: "Praise slightest improvement", stages: [
+          "🟢 ‘You’ve improved!’",
+          "🟡 Acknowledge small step",
+          "🔴 Celebrate small win"] },
+        { title: "Give a fine reputation to live up to", stages: [
+          "🟢 ‘You’re the peacemaker’",
+          "🟡 ‘People count on you’",
+          "🔴 ‘You’re the example’"] },
+        { title: "Encourage; make faults seem easy to fix", stages: [
+          "🟢 ‘You’ll fix this quick’",
+          "🟡 Small tweak praise",
+          "🔴 Frame as learning curve"] },
+        { title: "Make them happy to do what you suggest", stages: [
+          "🟢 Frame as fun",
+          "🟡 Offer reward/benefit",
+          "🔴 Tie to goal"] }
+      ]
+    };
+
+    const state = JSON.parse(localStorage.getItem("read2real_progress")) || {};
+
+    function saveProgress() {
+      localStorage.setItem("read2real_progress", JSON.stringify(state));
+    }
+
+    function updateProgress(bookKey) {
+      const challenges = books[bookKey];
+      const total = challenges.length * 3;
+      const completed = Object.keys(state).filter(k => k.startsWith(bookKey)).filter(k => state[k]).length;
+      const percent = Math.floor((completed / total) * 100);
+      document.getElementById("progress").style.display = "block";
+      const progress = document.getElementById("progressBar");
+      progress.style.width = percent + "%";
+      progress.textContent = percent + "%";
+    }
+
+    function toggle(book, id) {
+      const key = `${book}_${id}`;
+      state[key] = !state[key];
+      saveProgress();
+      showBook(book);
+    }
+
+    function showDashboard() {
+      document.getElementById("progress").style.display = "none";
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+      const bookList = document.createElement("div");
+      bookList.className = "book-list";
+      bookList.innerHTML = "<h2>Available Books</h2><ul><li><button onclick=\"showBook('carnegie')\">How to Win Friends and Influence People</button></li></ul>";
+      app.appendChild(bookList);
+    }
+
+    function showBook(bookKey) {
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+      const challenges = books[bookKey];
+
+      challenges.forEach((challenge, i) => {
+        const div = document.createElement("div");
+        div.className = "challenge";
+        const title = document.createElement("h3");
+        title.textContent = `${i + 1}. ${challenge.title}`;
+        div.appendChild(title);
+
+        challenge.stages.forEach((stage, j) => {
+          const id = `${i}_${j}`;
+          const key = `${bookKey}_${id}`;
+          const p = document.createElement("p");
+          p.className = "stage" + (state[key] ? " completed" : "");
+          p.textContent = stage;
+          p.style.cursor = "pointer";
+          p.onclick = () => toggle(bookKey, id);
+          div.appendChild(p);
+        });
+        app.appendChild(div);
+      });
+      updateProgress(bookKey);
+    }
+
+    showDashboard();
+  </script>
+</body>
+</html>
